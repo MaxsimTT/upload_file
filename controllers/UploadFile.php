@@ -3,6 +3,7 @@
 namespace controllers;
 
 use traits\UploadFileTrait;
+use libs\DFileHelper;
 
 class UploadFile
 {
@@ -31,21 +32,39 @@ class UploadFile
 			}
 
 			if (! $this->validate(
-								$file, $params['type_file'],
-								$params['max_size_file'],
-								$params['extension_file']
+									$file, $params['type_file'],
+									$params['max_size_file'],
+									$params['extension_file']
 								)) {
 				return header("Refresh:0");
 			}
 
 			$this->setUploadDirName($params['dir_name']);
 			$this->createDirUploadFile();
-			$this->uploadFile($file);
 
-			echo $this->getUploadDirName();
+			$file['name'] = DFileHelper::getRandomFileName(
+											$this->getUploadDirName(),
+											$params['extension_file']
+											) . ".{$params['extension_file']}";
 
-			debug($file);
+			if ($this->uploadFile($file)) {
+				$_SESSION['upload_file'] = true;
+			} else {
+				$_SESSION['upload_file'] = false;
+			}
+
+			return header("Refresh:0");
 			
+		}
+
+		if (isset($_SESSION['upload_file'])) {
+			$res = $_SESSION['upload_file'];
+			var_dump($_SESSION['upload_file']);
+			unset($_SESSION['upload_file']);
+		}
+
+		if (isset($res)) {
+			var_dump($res);
 		}
 
 		return include(VIEWS . 'upload_file.php');
