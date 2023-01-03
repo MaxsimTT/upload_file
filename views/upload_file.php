@@ -12,10 +12,17 @@
 		<p class="test">Загрузите файл на сервер</p>
 		<p><input type="file" name="text_file" accept=".txt">
 		<input type="submit" value="Отправить"></p>
+		<? if (isset($res)) { ?>
+			<p>
+				Статус загрузки файла: 
+				<? if ($res == true) { ?>
+					успешно.
+				<? } ?>
+				<? if ($res == false) { ?>
+					ошибка!
+				<? } ?>
+			</p>
+		<? } ?>
 	</form>
-	<button id="btn">Кнопка для скрытия элемента</button>
-	<? if (isset($file_name)) { ?>
-		<p><?=$file_name?></p>
-	<? } ?>
 </body>
 </html>

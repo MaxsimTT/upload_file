@@ -59,12 +59,7 @@ class UploadFile
 
 		if (isset($_SESSION['upload_file'])) {
 			$res = $_SESSION['upload_file'];
-			var_dump($_SESSION['upload_file']);
 			unset($_SESSION['upload_file']);
-		}
-
-		if (isset($res)) {
-			var_dump($res);
 		}
 
 		return include(VIEWS . 'upload_file.php');
