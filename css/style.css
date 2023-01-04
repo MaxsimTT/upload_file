@@ -1,6 +1,18 @@
-.test {
-	color: blue;
+.circle-red:after {
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: red;
+	display: inline-block;
+	margin: 0px 10px 0px 0px;
 }
-.hidden {
-	display: none;
+.circle-green:after {
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background-color: green;
+	display: inline-block;
+	margin: 0px 10px 0px 0px;
 }

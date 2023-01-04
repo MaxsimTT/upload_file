@@ -13,14 +13,8 @@
 		<p><input type="file" name="text_file" accept=".txt">
 		<input type="submit" value="Отправить"></p>
 		<? if (isset($res)) { ?>
-			<p>
+			<p class="<?echo $res == true ? 'circle-green' : 'circle-red'?>">
 				Статус загрузки файла: 
-				<? if ($res == true) { ?>
-					успешно.
-				<? } ?>
-				<? if ($res == false) { ?>
-					ошибка!
-				<? } ?>
 			</p>
 		<? } ?>
 	</form>
