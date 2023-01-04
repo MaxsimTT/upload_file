@@ -13,7 +13,7 @@
 		<p><input type="file" name="text_file" accept=".txt">
 		<input type="submit" value="Отправить"></p>
 		<? if (isset($res)) { ?>
-			<p class="<?echo $res == true ? 'circle-green' : 'circle-red'?>">
+			<p class="<?= $res == true ? 'circle-green' : 'circle-red'?>">
 				Статус загрузки файла: 
 			</p>
 		<? } ?>

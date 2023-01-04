@@ -20,10 +20,9 @@ class UploadFile
 
 	public function index()
 	{
+		$params = $this->getParams();
 
 		if (isset($_POST['uploadfile'])) {
-
-			$params = $this->getParams();
 			
 			$file = $_FILES['text_file'];
 			
@@ -56,6 +55,8 @@ class UploadFile
 			return header("Refresh:0");
 			
 		}
+
+		debug(getListFiles(ROOT . $params['dir_name']));
 
 		if (isset($_SESSION['upload_file'])) {
 			$res = $_SESSION['upload_file'];
