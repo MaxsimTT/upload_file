@@ -56,7 +56,15 @@ class UploadFile
 			
 		}
 
-		debug(getListFiles(ROOT . $params['dir_name']));
+		$list_files = getListFiles(ROOT . $params['dir_name']);
+
+		if ($list_files) {
+			$result = countStringSymbols($list_files, ROOT . $params['dir_name']);
+		}
+
+		if (isset($result)) {
+			debug($result);
+		}
 
 		if (isset($_SESSION['upload_file'])) {
 			$res = $_SESSION['upload_file'];
