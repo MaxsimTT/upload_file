@@ -18,5 +18,18 @@
 			</p>
 		<? } ?>
 	</form>
+	<? if (!empty($count_digital)) { ?>
+		<h3>Count digit in files strings:</h3>
+		<? foreach ($count_digital as $file_name => $strings) { ?>
+			<div>
+				<?= $file_name; ?>
+				<ul>
+					<? foreach ($strings as $num_str => $amount_digits) { ?>
+						<li><?= 'string number ' . $num_str . ' = amount digits '. $amount_digits; ?></li>
+					<? } ?>
+				</ul>
+			</div>
+		<? } ?>
+	<? } ?>
 </body>
 </html>

@@ -4,9 +4,8 @@ namespace traits;
 
 trait UploadFileTrait
 {
-	private string $upload_dir_name = '';
-
-	protected function validate(array $file, string $type, int $max_size, string $ext): bool
+	
+	public static function validate(array $file, string $type, int $max_size, string $ext): bool
 	{
 
 		$extension = strtolower(substr(strrchr($file['name'], '.'), 1));
@@ -26,29 +25,19 @@ trait UploadFileTrait
 		return true;		
 	}
 
-	protected function setUploadDirName($dirName): void
-	{
-		$this->upload_dir_name = $dirName;
-	}
-
-	protected function getUploadDirName(): string|int
-	{
-		return $this->upload_dir_name;
-	}
-
-    protected function createDirUploadFile(): bool
+    public static function createDirUploadFile($dir_name): bool
     {
-        if (!is_dir($this->upload_dir_name)) {
-            if (!mkdir($this->upload_dir_name, 0777, true)) {
+        if (!is_dir($dir_name)) {
+            if (!mkdir($dir_name, 0777, true)) {
                 return false;
             }
         }
         return true;
     }
 
-	protected function uploadFile(array $file): bool
+	public static function uploadFile(array $file, string $dir_name): bool
 	{
-		$target = "$this->upload_dir_name\\{$file['name']}";
+		$target = "$dir_name\\{$file['name']}";
 		return move_uploaded_file($file['tmp_name'], $target);
 	}
 

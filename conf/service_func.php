@@ -5,9 +5,15 @@ function debug(array|string $data): void
 	echo '<pre>' . print_r($data, true) . '</pre>';
 }
 
-function autoloader($class): void
+function autoloader(string $path): void
 {
-	require_once $class . '.php';
+	if (preg_match('/\\\\/', $path)) {
+		$path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
+	}
+
+	if (\stream_resolve_include_path("{$path}.php") !== false) {
+		require_once "{$path}.php";
+	}
 }
 
 function getListFiles(string $path): array|bool
@@ -49,4 +55,25 @@ function countStringSymbols(array $list_files, string $path): array|bool
     }
 
     return $result;
+}
+
+function getCountDigitsFromStr(array $list_files, string $path): array|bool
+{
+	$file_strings = [];
+	$result = [];
+
+	foreach ($list_files as $file) {
+		if (!file_exists($path . '/' . $file)) {
+			return false;
+		}
+    	$file_strings[$file] = file($path . '/' . $file, FILE_IGNORE_NEW_LINES);
+    }
+
+    foreach ($file_strings as $name_file => $data) {
+    	foreach ($data as $key => $str) {
+    		$result[$name_file][$key + 1] = preg_match_all('/[0-9]/', $str, $matches);
+    	}
+    }
+
+	return $result;
 }

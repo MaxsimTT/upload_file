@@ -2,17 +2,10 @@
 
 namespace controllers;
 
-use traits\UploadFileTrait;
-use libs\DFileHelper;
+use models\FilesModel;
 
 class UploadFile
 {
-
-	use UploadFileTrait
-	{
-		UploadFileTrait::setUploadDirName as public;
-		UploadFileTrait::getUploadDirName as public;
-	}
 
 	public function __construct(private array $params)
 	{
@@ -27,44 +20,34 @@ class UploadFile
 			$file = $_FILES['text_file'];
 			
 			if ($file['error']) {
-				return header("Refresh:0");
-			}
-
-			if (! $this->validate(
-									$file, $params['type_file'],
-									$params['max_size_file'],
-									$params['extension_file']
-								)) {
-				return header("Refresh:0");
-			}
-
-			$this->setUploadDirName($params['dir_name']);
-			$this->createDirUploadFile();
-
-			$file['name'] = DFileHelper::getRandomFileName(
-											$this->getUploadDirName(),
-											$params['extension_file']
-											) . ".{$params['extension_file']}";
-
-			if ($this->uploadFile($file)) {
-				$_SESSION['upload_file'] = true;
-			} else {
 				$_SESSION['upload_file'] = false;
+				return header("Refresh:0");
+			}
+
+			try
+			{
+				$file = FilesModel::uploadFile(
+												$file,
+												$params['type_file'],
+												$params['max_size_file'],
+												$params['extension_file'],
+												$params['dir_name']
+												);
+				$_SESSION['upload_file'] = true;
+
+			}
+			catch (\Exception $e)
+			{
+				$_SESSION['upload_file'] = false;
+				$_SESSION['error_message'] = $e->getMessage();
 			}
 
 			return header("Refresh:0");
 			
 		}
 
-		$list_files = getListFiles(ROOT . $params['dir_name']);
-
-		if ($list_files) {
-			$result = countStringSymbols($list_files, ROOT . $params['dir_name']);
-		}
-
-		if (isset($result)) {
-			debug($result);
-		}
+		$files = new FilesModel(ROOT . $params['dir_name']);
+		$count_digital = $files->getCountDigitsFromStr();
 
 		if (isset($_SESSION['upload_file'])) {
 			$res = $_SESSION['upload_file'];
