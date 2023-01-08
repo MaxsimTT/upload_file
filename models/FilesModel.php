@@ -57,7 +57,6 @@ class FilesModel
 		}
 
 		foreach ($this->getListFiles() as $file) {
-			debug(123);
 			if (!file_exists($this->getDirName() . '/' . $file)) {
 				return false;
 			}
