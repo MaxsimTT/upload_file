@@ -11,6 +11,11 @@ class UploadFile
 	{
 	}
 
+	public static function create(array $params): UploadFile
+	{
+		return new UploadFile($params);
+	}
+
 	public function index()
 	{
 		$params = $this->getParams();
