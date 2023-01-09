@@ -23,6 +23,7 @@
 		<? foreach ($count_digital as $file_name => $strings) { ?>
 			<div>
 				<?= $file_name; ?>
+				<a href="?<?= "del={$file_name}" ?>">Delete file</a>
 				<ul>
 					<? foreach ($strings as $num_str => $amount_digits) { ?>
 						<li><?= 'string number ' . $num_str . ' = amount digits '. $amount_digits; ?></li>

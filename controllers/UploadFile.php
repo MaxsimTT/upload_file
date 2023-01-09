@@ -20,6 +20,16 @@ class UploadFile
 	{
 		$params = $this->getParams();
 
+		if (isset($_GET['del'])) {
+			try {
+				FilesModel::deleteFile(ROOT . $params['dir_name'] . '/'. $_GET['del']);
+			} catch (\Exception $e) {
+				$_SESSION['error_message'] = $e->getMessage();
+			} finally {
+				return header('Location: http://amopoint/');
+			}
+		}
+
 		if (isset($_POST['uploadfile'])) {
 			
 			$file = $_FILES['text_file'];
@@ -29,8 +39,7 @@ class UploadFile
 				return header("Refresh:0");
 			}
 
-			try
-			{
+			try {
 				$file = FilesModel::uploadFile(
 												$file,
 												$params['type_file'],
@@ -39,10 +48,7 @@ class UploadFile
 												$params['dir_name']
 												);
 				$_SESSION['upload_file'] = true;
-
-			}
-			catch (\Exception $e)
-			{
+			} catch (\Exception $e) {
 				$_SESSION['upload_file'] = false;
 				$_SESSION['error_message'] = $e->getMessage();
 			}

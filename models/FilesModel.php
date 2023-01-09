@@ -94,4 +94,19 @@ class FilesModel
 		return $file;
 	}
 
+	public static function deleteFile($file): void
+	{
+
+		if (preg_match('/\\\\/', $file)) {
+			$file = str_replace('\\', DIRECTORY_SEPARATOR, $file);
+		}
+
+		if (file_exists($file) !== false) {
+			unlink($file);
+		} else {
+			throw new \Exception("file '{$file} don't exist");
+		}
+
+	}
+
 }
