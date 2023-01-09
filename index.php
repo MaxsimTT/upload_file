@@ -2,25 +2,14 @@
 
 session_start();
 
+use controllers\UploadFile;
+
 require_once(__DIR__ . '/conf/app.php');
+spl_autoload_register('autoloader');
 
-$post = "Hello, World";
+$app = UploadFile::create($params_for_upload_txt_file);
+$app->index();
 
-if (isset($_SESSION['main_file'])) {
-	// debug($_SESSION['main_file']);
-	$file = $_SESSION['main_file'];
-	unset($_SESSION['main_file']);
-	// debug($_SESSION);
-}
-
-if (isset($file)) {
-	$file_name = $file['main_file']['name'];
-}
-
-if ($_FILES) {
-	// debug($_FILES);
-	$_SESSION['main_file'] = $_FILES;
-	header("Refresh:0");
-}
-
-include(VIEWS . 'upload_file.php');
+// debug(get_declared_classes());
+// debug(get_class_methods(UploadFile::class));
+// debug(get_class_methods(models\FilesModel::class));
